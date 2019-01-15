@@ -10,6 +10,8 @@ import Leaderboard from './Leaderboard'
 import NewQuestion from './NewQuestion'
 import Nav from './Nav'
 import { setAuthedUser} from "../actions/authedUser";
+import LoadingBar from 'react-redux-loading'
+
 
 const NoMatch = ({ location }) => (
     <div>
@@ -35,10 +37,12 @@ class App extends Component {
           <div>
               <Router>
                   <Fragment>
-                      <div>
-                          {(authedUser && authedUser.userId) ?
-                              <div className="container">
-                                 <img
+                      <LoadingBar/>
+                          <div>
+                            {this.props.loading === true ? null :
+                              (authedUser && authedUser.userId) ?
+                                  <div className="container">
+                                  <img
                                       src={user.avatarURL}
                                       alt={`Alt of ${user.name}`}
                                       className='avatar'
@@ -63,11 +67,11 @@ class App extends Component {
   }
 }
 
-//function mapStateToProps( { userId } ) {
 function mapStateToProps( {authedUser, users} ) {
     return {
         authedUser,
         users,
+        loading: users===null,
     }
 
 }
